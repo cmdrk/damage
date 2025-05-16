@@ -7,6 +7,7 @@ local center_y = love.graphics.getHeight()/2
 -- menu configuration
 local menu = {
     "connect",
+    "offline mode",
     "quit",
     }
 local selected = 1
@@ -35,7 +36,9 @@ function intro.keypressed(key)
         selected = math.min(#menu, selected+1)
     elseif key == "return" then
         if menu[selected] == "connect" then
-            set_mode("connect")
+            set_scene("connect")
+        elseif menu[selected] == "offline mode" then
+            set_scene("offline")
         elseif menu[selected] == "quit" then
             love.event.quit()
         end

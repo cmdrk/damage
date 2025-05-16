@@ -1,19 +1,31 @@
 -- file: main.lua
 
+-- Global libraries
+class = require("lib.classic")
+tiny = require("lib.tiny")
+
+-- Global variables
+---- Multiplayer
 enet_client = nil
 client_peer = nil
-current_mode = nil
-local modes = {
-    intro = require("mode.intro"),
-    connect = require("mode.connect"),
-    playing = require("mode.playing")
+current_scene = nil
+
+-- debug
+debug_key = nil
+
+-- Scenes
+local scenes = {
+    intro = require("src.scene.intro"),
+    connect = require("src.scene.connect"),
+    playing = require("src.scene.playing"),
+    offline = require("src.scene.offline"),
 }
 
-function set_mode(mode)
-    print("Changing mode: ", mode)
-    current_mode = mode
-    if modes[current_mode].activate then
-        modes[current_mode].activate()
+function set_scene(scene)
+    print("Changing scene: ", scene)
+    current_scene = scene
+    if scenes[current_scene].activate then
+        scenes[current_scene].activate()
     end
 end
 
@@ -22,26 +34,32 @@ function love.load()
     normal_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 32)
     small_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 16)
     love.graphics.setFont(normal_font)
+    love.window.setVSync(1)
 
-    -- change to intro mode
-    set_mode("intro")
+    -- change to intro scene
+    set_scene("intro")
 end
+
 
 function love.update(dt)
     require("lib.lurker").update()
-    if modes[current_mode].update then
-        modes[current_mode].update(dt)
+    if scenes[current_scene].update then
+        scenes[current_scene].update(dt)
     end
 end
 
 function love.draw()
-    if modes[current_mode].draw then
-        modes[current_mode].draw()
+    if scenes[current_scene].draw then
+        scenes[current_scene].draw()
     end
 end
 
 function love.keypressed(key)
-    if modes[current_mode].keypressed then
-        modes[current_mode].keypressed(key)
+    debug_key = key
+    if key == "escape" or key == "q" then
+        set_scene("intro")
+    end
+    if scenes[current_scene].keypressed then
+        scenes[current_scene].keypressed(key)
     end
 end

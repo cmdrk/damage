@@ -77,7 +77,7 @@ function connect.update(dt)
                         progress_text = "Sending session request"
                         progress_pct = 0.9
                         overworld.hardcoded_session_request(client_peer)
-                        set_mode("playing")
+                        set_scene("playing")
                     end
                 end
             end
