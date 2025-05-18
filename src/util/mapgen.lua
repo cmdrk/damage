@@ -1,6 +1,5 @@
 -- file: mapgen.lua
 local Tile = require("src.entity.tile")
-local Spawn = require("src.entity.spawn")
 local mapgen = {}
 
 -- Parse an ASCII diagram into a table of tiles
@@ -29,7 +28,7 @@ function mapgen.run(mapfile, world)
                 --print("Adding floor at (" .. x .. "," .. y .. ")")
                 e = Tile(x,y,"floor")
             elseif char == "S" then
-                e = Spawn(x,y)
+                e = Tile(x,y, "spawn")
             end
             world:addEntity(e)
         end

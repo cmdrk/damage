@@ -15,16 +15,25 @@ function controller:process(e, _dt)
                                   kb.isDown("s"),
                                   kb.isDown("a"),
                                   kb.isDown("d")
+
+    -- Hold temporary x,y to pass into collision system
+    local x,y = p.x, p.y
+
     if up then
-        p.y = p.y - dt*e.speed
+        y = p.y - dt*e.speed
     elseif down then
-        p.y = p.y + dt*e.speed
+        y = p.y + dt*e.speed
     end
 
     if left then
-        p.x = p.x - dt*e.speed
+        x = p.x - dt*e.speed
     elseif right then
-        p.x = p.x + dt*e.speed
+        x = p.x + dt*e.speed
+    end
+
+    -- Calculate the actual x,y if the player has moved
+    if up or down or left or right then
+        p.x, p.y, _len, _cols = collision:move(e, x, y)
     end
 
     -- Rotate the top-half of the bot toward the mouse

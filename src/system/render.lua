@@ -6,7 +6,7 @@ render.is_draw_system = true
 render.filter = tiny.requireAll("drawable")
 
 function render:process(e, dt)
-    if e.player then
+    if e.type == "player" then
         draw_player(e, dt)
     else 
         draw_entity(e, dt)
@@ -16,7 +16,7 @@ end
 function draw_entity(e, _dt)
     local x,y = math.floor(e.position.x),
                 math.floor(e.position.y)
-    local s = MAP_SCALE
+    local s = e.size
     if e.type == "wall" then
         love.graphics.setColor(0.4,0.2,0.8,0.8)
         fill = "fill"

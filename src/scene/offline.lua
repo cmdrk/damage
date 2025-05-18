@@ -16,8 +16,10 @@ function offline.activate()
     world = tiny.world(
                     require("src.system.controller"),
                     require("src.system.physics"),
-                    require("src.system.render")
+                    require("src.system.render"),
+                    require("src.system.cleaner")
                 )
+    print("Adding player to world")
     world:addEntity(p)
     --love.mouse.setRelativeMode(true)
     love.mouse.setGrabbed(true)
