@@ -13,6 +13,13 @@ current_scene = nil
 -- debug
 debug_key = nil
 
+-- Scaling
+MAP_SCALE = 64
+
+-- Camera
+local gamera = require("lib.gamera")
+cam = gamera.new(0,0,2048,2048) -- 32 tiles * 64px/tile
+
 -- Scenes
 local scenes = {
     intro = require("src.scene.intro"),
@@ -22,6 +29,12 @@ local scenes = {
 }
 
 function set_scene(scene)
+    if current_scene then
+        print("Deactivating scene: ", current_scene)
+        if scenes[current_scene].deactivate then
+            scenes[current_scene].deactivate()
+        end
+    end
     print("Changing scene: ", scene)
     current_scene = scene
     if scenes[current_scene].activate then

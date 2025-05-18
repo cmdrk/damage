@@ -19,7 +19,7 @@ end
 function intro.draw()
     font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf",32)
     love.graphics.setFont(font)
-    love.graphics.printf("DAMAGE", 0, (center_y -128), love.graphics.getWidth(), "center")
+    love.graphics.printf("D A M 4 G E", 0, (center_y -128), love.graphics.getWidth(), "center")
     for i, option in ipairs(menu) do
         if i == selected then
             love.graphics.printf("> " .. option, -16, (center_y - 32) + (i - 1)*32, love.graphics.getWidth(), "center")
