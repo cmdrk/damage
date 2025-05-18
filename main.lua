@@ -22,7 +22,7 @@ local gamera = require("lib.gamera")
 cam = gamera.new(0,0,2048,2048) -- 32 tiles * 64px/tile
 
 -- Collision
-collision = bump.newWorld(16)
+collision = bump.newWorld(64)
 
 -- Scenes
 local scenes = {

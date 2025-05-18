@@ -3,7 +3,7 @@
 local render = tiny.processingSystem()
 render.is_draw_system = true
 
-render.filter = tiny.requireAll("drawable")
+render.filter = tiny.requireAll("drawable","position")
 
 function render:process(e, dt)
     if e.type == "player" then
@@ -31,6 +31,11 @@ function draw_entity(e, _dt)
         love.graphics.setColor(0.8,0.2,0.2,0.9)
         fill = "fill"
         love.graphics.rectangle(fill, x, y, s, s)
+        love.graphics.setColor(1.0,1.0,1.0,1.0)
+    elseif e.type == "mob" then
+        love.graphics.setColor(0.8,0.8,0.7,1.0)
+        fill = "fill"
+        love.graphics.circle(fill, x, y, s)
         love.graphics.setColor(1.0,1.0,1.0,1.0)
     end
 end

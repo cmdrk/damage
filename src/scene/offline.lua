@@ -1,15 +1,13 @@
 -- file: offline.lua
 local offline = {}
-
 local mapgen = require("src.util.mapgen")
-
-local world
 
 -- TinyECS configuration 
 local draw_filter = tiny.requireAll('is_draw_system')
 local update_filter = tiny.rejectAny('is_draw_system')
 
 local Player = require("src.entity.player")
+local Mob = require("src.entity.mob")
 local Projectile = require("src.entity.projectile")
 
 local p
@@ -24,10 +22,16 @@ function offline.activate()
                 )
     print("Adding player to world")
     world:addEntity(p)
+    for i = 1, 100 do
+        m = Mob(math.random(2,32), math.random(2,32))
+        world:addEntity(m)
+    end
     --love.mouse.setRelativeMode(true)
     love.mouse.setGrabbed(true)
     -- Generate the map
     mapgen.run("map_01", world)
+    -- Set globals
+    _G.world = world
 end
 
 function offline.update(dt)
@@ -52,10 +56,9 @@ function offline.mousereleased(_x,_y,button)
         local px, py = p.position.x, p.position.y
         local vx = math.cos(p.torso_rotation)
         local vy = math.sin(p.torso_rotation)
-        local bx = math.floor(px + vx * 10) -- player's position plus a little
-        local by = math.floor(py - vy * 10)
+        local bx = math.floor(px - vx * 10) -- player's position plus a little
+        local by = math.floor(py + vy * 10)
         local b = Projectile(bx, by, vx, vy)
-        print("Adding projectile to world")
         world:addEntity(b)
     end
 end

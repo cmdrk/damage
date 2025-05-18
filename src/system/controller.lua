@@ -5,12 +5,15 @@ local controller = tiny.processingSystem()
 local kb = love.keyboard
 local mouse = love.mouse
 
-controller.filter = tiny.requireAll("controllable")
+controller.filter = tiny.requireAll("controllable","position","velocity")
 
 function controller:process(e, _dt)
     -- Get the position
     local p = e.position
+
+    -- Reset the velocity this frame
     local v = e.velocity
+    v.x, v.y = 0.0,0.0
 
     -- Update the camera
     cam:setPosition(p.x,p.y)
@@ -25,7 +28,7 @@ function controller:process(e, _dt)
                                   kb.isDown("d")
     if up then v.y = -1.0 end
     if down then v.y = 1.0 end
-    if left then v.x = 1.0 end
+    if left then v.x = -1.0 end
     if right then v.x = 1.0 end
 end
 
