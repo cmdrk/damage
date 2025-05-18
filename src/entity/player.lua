@@ -12,6 +12,10 @@ function Player:new(x,y)
         x = x,
         y = y
     }
+    self.velocity = {
+        x = 0.0,
+        y = 0.0
+    }
     self.leg_rotation = 0
     self.torso_rotation = 0
     self.speed = 100

@@ -10,9 +10,12 @@ local draw_filter = tiny.requireAll('is_draw_system')
 local update_filter = tiny.rejectAny('is_draw_system')
 
 local Player = require("src.entity.player")
+local Projectile = require("src.entity.projectile")
+
+local p
 
 function offline.activate()
-    local p = Player(96,96)
+    p = Player(96,96)
     world = tiny.world(
                     require("src.system.controller"),
                     require("src.system.physics"),
@@ -41,6 +44,20 @@ function render(_l,_t,_w,_h)
 end
 
 function offline.keypressed(_key)
+end
+
+function offline.mousereleased(_x,_y,button)
+    if button == 1 then
+        -- Create a new projectile
+        local px, py = p.position.x, p.position.y
+        local vx = math.cos(p.torso_rotation)
+        local vy = math.sin(p.torso_rotation)
+        local bx = math.floor(px + vx * 10) -- player's position plus a little
+        local by = math.floor(py - vy * 10)
+        local b = Projectile(bx, by, vx, vy)
+        print("Adding projectile to world")
+        world:addEntity(b)
+    end
 end
 
 function offline.deactivate()

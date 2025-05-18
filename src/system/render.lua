@@ -8,7 +8,7 @@ render.filter = tiny.requireAll("drawable")
 function render:process(e, dt)
     if e.type == "player" then
         draw_player(e, dt)
-    else 
+    else
         draw_entity(e, dt)
     end
 end
@@ -20,12 +20,19 @@ function draw_entity(e, _dt)
     if e.type == "wall" then
         love.graphics.setColor(0.4,0.2,0.8,0.8)
         fill = "fill"
+        love.graphics.rectangle(fill, x*s, y*s, s, s)
+        love.graphics.setColor(1.0,1.0,1.0,1.0)
     elseif e.type == "floor" then
         love.graphics.setColor(0.4,0.4,0.8,0.1)
         fill = "line"
+        love.graphics.rectangle(fill, x*s, y*s, s, s)
+        love.graphics.setColor(1.0,1.0,1.0,1.0)
+    elseif e.type == "projectile" then
+        love.graphics.setColor(0.8,0.2,0.2,0.9)
+        fill = "fill"
+        love.graphics.rectangle(fill, x, y, s, s)
+        love.graphics.setColor(1.0,1.0,1.0,1.0)
     end
-    love.graphics.rectangle(fill, x*s, y*s, s, s)
-    love.graphics.setColor(1.0,1.0,1.0,1.0)
 end
 
 function draw_player(e, _dt)

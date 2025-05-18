@@ -80,3 +80,9 @@ function love.keypressed(key)
         scenes[current_scene].keypressed(key)
     end
 end
+
+function love.mousereleased(x,y, button)
+    if scenes[current_scene].mousereleased then
+        scenes[current_scene].mousereleased(x,y,button)
+    end
+end

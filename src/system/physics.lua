@@ -2,7 +2,9 @@
 
 local physics = tiny.processingSystem()
 
-physics.filter = tiny.filter("(position&velocity)&!controllable")
+physics.filter = tiny.requireAll("position",
+                                 "velocity",
+                                 "speed")
 
 function physics:process(e, dt)
     local p = e.position
@@ -15,6 +17,7 @@ function physics:process(e, dt)
         x = p.x + v.x*dt*e.speed/normal
         y = p.y + v.y*dt*e.speed/normal
     end
+    -- Resolve any collisions and set actual new x/y
     p.x, p.y, _len, _cols = collision:move(e, x, y)
 end
 
