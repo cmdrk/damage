@@ -20,16 +20,16 @@ function offline.activate()
                     require("src.system.render"),
                     require("src.system.cleaner")
                 )
+    -- Generate the map
+    mapgen.run("map_01", world)
     print("Adding player to world")
     world:addEntity(p)
-    for i = 1, 100 do
+    for _i = 1, 100 do
         m = Mob(math.random(2,32), math.random(2,32))
         world:addEntity(m)
     end
     --love.mouse.setRelativeMode(true)
-    love.mouse.setGrabbed(true)
-    -- Generate the map
-    mapgen.run("map_01", world)
+    --love.mouse.setGrabbed(true)
     -- Set globals
     _G.world = world
 end
@@ -56,9 +56,7 @@ function offline.mousereleased(_x,_y,button)
         local px, py = p.position.x, p.position.y
         local vx = math.cos(p.torso_rotation)
         local vy = math.sin(p.torso_rotation)
-        local bx = math.floor(px - vx * 10) -- player's position plus a little
-        local by = math.floor(py + vy * 10)
-        local b = Projectile(bx, by, vx, vy)
+        local b = Projectile(px, py, vx, vy)
         world:addEntity(b)
     end
 end
