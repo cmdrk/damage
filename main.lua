@@ -13,6 +13,7 @@ current_scene = nil
 
 -- debug
 debug_key = nil
+profiler = false
 
 -- Scaling
 MAP_SCALE = 64
@@ -51,14 +52,20 @@ function love.load()
     normal_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 32)
     small_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 16)
     love.graphics.setFont(normal_font)
-    love.window.setVSync(1)
 
     -- change to intro scene
     set_scene("intro")
 end
 
-
+love.frame = 0
 function love.update(dt)
+    love.frame = love.frame + 1
+    if profiler then
+        if love.frame%100 == 0 then
+            love.report = love.profiler.report(20)
+            love.profiler.reset()
+        end
+    end
     require("lib.lurker").update()
     if scenes[current_scene].update then
         scenes[current_scene].update(dt)
@@ -69,12 +76,27 @@ function love.draw()
     if scenes[current_scene].draw then
         scenes[current_scene].draw()
     end
+    if profiler then
+        love.graphics.setFont(small_font)
+        love.graphics.print(love.report or "Please wait...")
+        love.graphics.setFont(normal_font)
+    end
 end
 
 function love.keypressed(key)
     debug_key = key
     if key == "escape" or key == "q" then
         set_scene("intro")
+    end
+    if key == "p" then
+        if not profiler then
+            love.profiler = require('lib.profile')
+            love.profiler.start()
+            profiler = not profiler
+        elseif profiler then
+            love.profiler.stop()
+            profiler = not profiler
+        end
     end
     if scenes[current_scene].keypressed then
         scenes[current_scene].keypressed(key)
