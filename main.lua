@@ -51,7 +51,7 @@ function love.load()
     -- initialization
     normal_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 32)
     small_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 16)
-    love.graphics.setFont(normal_font)
+    love.graphics.setFont(small_font)
 
     -- change to intro scene
     set_scene("intro")

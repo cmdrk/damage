@@ -1,6 +1,12 @@
 -- This module handles all connection with Overworld via ENet
 local overworld = {}
 
+local maj, _min, _rev, _codename = love.getVersion()
+if maj < 12 then
+    print("Overworld will not work with LOVE under version 12")
+    return overworld
+end
+
 local https = require("https")
 local json = require("lib.JSON")
 local protoc = require("lib.protoc")
