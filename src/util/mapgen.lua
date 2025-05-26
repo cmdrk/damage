@@ -1,9 +1,23 @@
 -- file: mapgen.lua
-local Tile = require("src.entity.tile")
+local Wall = require("src.entity.wall")
+local Floor = require("src.entity.floor")
 local mapgen = {}
 
+local function read_map(name)
+    local map = io.open("assets/maps/" .. name)
+    if map then
+        print("Loaded map")
+        local diagram = map:read("*all")
+        map:close()
+        return diagram
+    else
+        print("Error loading map: " .. map)
+        return ""
+    end
+end
+
 -- Parse an ASCII diagram into a table of tiles
-function mapgen.run(mapfile, world)
+function mapgen.run(mapfile)
     -- Get the map in string representation
     local mapstring = read_map(mapfile)
 
@@ -18,33 +32,16 @@ function mapgen.run(mapfile, world)
         local line = lines[y + 1]
         for x = 0, #line - 1 do
             local char = line:sub(x + 1, x + 1)
-
             -- Create tiles based on the character
             local e
             if char == "#" then
-                --print("Adding wall at (" .. x .. "," .. y .. ")")
-                e = Tile(x,y,"wall")
-            elseif char == "." then
-                --print("Adding floor at (" .. x .. "," .. y .. ")")
-                e = Tile(x,y,"floor")
-            elseif char == "S" then
-                e = Tile(x,y, "spawn")
+                e = Wall(x,y)
+            else
+                e = Floor(x,y)
             end
-            world:addEntity(e)
+            ecs:addEntity(e)
+            collision:add(e, e.position.x, e.position.y, e.collision_shape)
         end
-    end
-end
-
-function read_map(name)
-    local map = io.open("assets/maps/" .. name)
-    if map then
-        print("Loaded map")
-        local diagram = map:read("*all")
-        map:close()
-        return diagram
-    else
-        print("Error loading map: " .. map)
-        return ""
     end
 end
 

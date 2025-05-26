@@ -1,29 +1,30 @@
 -- file: main.lua
 
 -- Global libraries
-class = require("lib.classic")
-tiny = require("lib.tiny")
-bump = require("lib.bump")
+Class = require("lib.classic")
+Tiny = require("lib.tiny")
+--bump = require("lib.bump")
+Slick = require("lib.slick")
+Gamera = require("lib.gamera")
 
 -- Global variables
 ---- Multiplayer
-enet_client = nil
-client_peer = nil
+--enet_client = nil
+--client_peer = nil
+
 current_scene = nil
 
 -- debug
-debug_key = nil
-profiler = false
+--local debug_key = nil
+local profiler = false
 
 -- Scaling
 MAP_SCALE = 64
 
--- Camera
-local gamera = require("lib.gamera")
-cam = gamera.new(0,0,2048,2048) -- 32 tiles * 64px/tile
-
--- Collision
-collision = bump.newWorld(64)
+-- World params
+-- 32 tiles * 64px/tile
+WORLD_X = 2048
+WORLD_Y = 2048
 
 -- Scenes
 local scenes = {
@@ -49,9 +50,9 @@ end
 
 function love.load()
     -- initialization
-    normal_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 32)
-    small_font = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 16)
-    love.graphics.setFont(small_font)
+    NormalFont = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 32)
+    SmallFont = love.graphics.newFont("assets/Px437_EagleSpCGA_Alt2-2y.ttf", 16)
+    love.graphics.setFont(NormalFont)
 
     -- change to intro scene
     set_scene("intro")
@@ -77,18 +78,19 @@ function love.draw()
         scenes[current_scene].draw()
     end
     if profiler then
-        love.graphics.setFont(small_font)
+        love.graphics.setFont(SmallFont)
         love.graphics.print(love.report or "Please wait...")
-        love.graphics.setFont(normal_font)
+        love.graphics.setFont(NormalFont)
     end
 end
 
+
 function love.keypressed(key)
-    debug_key = key
+    --debug_key = key
     if key == "escape" or key == "q" then
         set_scene("intro")
     end
-    if key == "p" then
+    if key == "F4" then
         if not profiler then
             love.profiler = require('lib.profile')
             love.profiler.start()

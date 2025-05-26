@@ -1,13 +1,13 @@
 -- file: cleaner.lua
 
-local cleaner = tiny.processingSystem()
+local cleaner = Tiny.processingSystem()
 
-cleaner.filter = tiny.requireAll("dead")
+cleaner.filter = Tiny.requireAll("dead")
 
 function cleaner:process(e, _dt)
     if e.dead == true then
+        ecs:removeEntity(e)
         collision:remove(e)
-        world:removeEntity(e)
     end
 end
 
