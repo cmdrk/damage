@@ -83,7 +83,7 @@ do
         love.filesystem.setRequirePath(newLovePath)
     end
 
-    local success, result = xpcall(load, debug.traceback)
+    local success, result = pcall(load)
 
     package.path = oldLuaPath
     if oldLovePath then
