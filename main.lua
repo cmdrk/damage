@@ -28,10 +28,10 @@ WORLD_Y = 2048
 
 -- Scenes
 local scenes = {
-    intro = require("src.scene.intro"),
-    connect = require("src.scene.connect"),
-    playing = require("src.scene.playing"),
-    offline = require("src.scene.offline"),
+    intro = require("intro"),
+    connect = require("connect"),
+    playing = require("playing"),
+    offline = require("offline"),
 }
 
 function set_scene(scene)
