@@ -1,18 +1,15 @@
--- External Libs
-Slick = require("lib.slick")
-Class = require("lib.classic")
-Tiny = require("lib.tiny")
+Damage = require("damage")
 
--- Global constants
-require("constants")
+-- Internal libs
+local mapgen = require("src.util.mapgen")
 
--- Setup ECS systems
-local ecs = Tiny.world(
-                require("src.system.physics"),
-                require("src.system.cleaner")
-            )
-_G.ecs = ecs
+-- Setup ECS filters
+local update_filter = Tiny.requireAll('is_server_system')
 
--- Setup world for collision system
-local collision = Slick.newWorld(WORLD_X, WORLD_Y)
-_G.collision = collision
+function load_level(mapstr) 
+    mapgen.run(mapstr)
+end
+
+function update(dt) 
+    ecs:update(dt, update_filter)    
+end
