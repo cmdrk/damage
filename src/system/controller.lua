@@ -29,9 +29,10 @@ function controller:process(e, _dt)
     v.x, v.y = 0.0,0.0
 
     -- Update the camera
-    cam:setPosition(p.x,p.y)
+    --cam:setPosition(p.x,p.y)
 
     -- Rotate the the player toward the mouse position
+    e.last_rotation = e.rotation
     e.rotation = look_at_cursor(p.x, p.y)
 
     -- If any directionals are held, move in that direction

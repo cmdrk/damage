@@ -3,7 +3,12 @@
 local render = Tiny.processingSystem()
 render.is_draw_system = true
 
-render.filter = Tiny.requireAll("drawable","position", "size")
+render.filter = Tiny.requireAll("drawable",
+                                "position",
+                                "last_position",
+                                "rotation",
+                                "last_rotation",
+                                "size")
 
 local function get_size(size)
     if type(size) == table then
@@ -38,11 +43,20 @@ local function draw_arms(x,y,s,r)
     love.graphics.pop()
 end
 
-function render:process(e, _dt)
-    local x,y = math.floor(e.position.x),
-                math.floor(e.position.y)
-    local r = e.rotation
+function render:process(e, alpha)
+    local function lerp(a,b,t)
+        return a + (b - a) * t
+    end
+
+    local x,y = lerp(e.last_position.x, e.position.x, alpha),
+                lerp(e.last_position.y, e.position.y, alpha)
+    local r = lerp(e.last_rotation, e.rotation, alpha)
     local sx, sy = get_size(e.size)
+
+    -- Set the camera position
+    if e.controllable then
+        cam:setPosition(x,y)
+    end
 
     -- Set color, if defined
     if e.color then

@@ -3,7 +3,7 @@ local Wall = require("src.entity.wall")
 local Floor = require("src.entity.floor")
 local mapgen = {}
 
-local function read_map(name)
+function mapgen.read_map(name)
     local map = io.open("assets/maps/" .. name)
     if map then
         print("Loaded map")
@@ -17,10 +17,7 @@ local function read_map(name)
 end
 
 -- Parse an ASCII diagram into a table of tiles
-function mapgen.run(mapfile)
-    -- Get the map in string representation
-    local mapstring = read_map(mapfile)
-
+function mapgen.run(mapstring)
     -- Split the map string into lines
     local lines = {}
     for line in mapstring:gmatch("[^\r\n]+") do

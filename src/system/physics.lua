@@ -41,6 +41,7 @@ function hurt(item,other)
 end
 
 function physics:process(e, dt)
+    local lp = e.last_position
     local p = e.position
     local v = e.velocity
     -- normalize the velocity vector
@@ -76,6 +77,7 @@ function physics:process(e, dt)
     end
 
     -- Update the new position
+    lp.x, lp.y = p.x, p.y
     p.x, p.y = actualX, actualY
 end
 

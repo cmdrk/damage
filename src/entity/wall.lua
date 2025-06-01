@@ -2,10 +2,13 @@
 local Wall = Class:extend()
 
 function Wall:new(x,y)
-    print("Adding wall at: ("..x..","..y..")")
     self.debugtype = "wall"
+    self.last_position = { x = x * MAP_SCALE,
+                      y = y * MAP_SCALE }
     self.position = { x = x * MAP_SCALE,
                       y = y * MAP_SCALE }
+    self.last_rotation = 0
+    self.rotation = 0
     self.drawable = true
     self.initializing = true
     self.size = MAP_SCALE - 1

@@ -3,28 +3,22 @@
 -- Global libraries
 Class = require("lib.classic")
 Tiny = require("lib.tiny")
---bump = require("lib.bump")
 Slick = require("lib.slick")
 Gamera = require("lib.gamera")
+
+-- Constants
+require("constants")
 
 -- Global variables
 ---- Multiplayer
 --enet_client = nil
 --client_peer = nil
 
-current_scene = nil
+local current_scene
 
 -- debug
 --local debug_key = nil
 local profiler = false
-
--- Scaling
-MAP_SCALE = 64
-
--- World params
--- 32 tiles * 64px/tile
-WORLD_X = 2048
-WORLD_Y = 2048
 
 -- Scenes
 local scenes = {
@@ -73,9 +67,69 @@ function love.update(dt)
     end
 end
 
-function love.draw()
+function love.run()
+    if love.load then love.load(love.arg.parseGameArguments(arg), arg) end
+
+    -- Fixed timestep configuration
+    local fixed_dt = 1/20  -- 20 FPS fixed timestep
+    local accumulator = 0
+    local current_time = love.timer.getTime()
+
+    return function()
+        -- Process events
+        if love.event then
+            love.event.pump()
+            for name, a, b, c, d, e, f in love.event.poll() do
+                if name == "quit" then
+                    if not love.quit or not love.quit() then
+                        return a or 0
+                    end
+                end
+                love.handlers[name](a, b, c, d, e, f)
+            end
+        end
+
+        -- Calculate frame time
+        local new_time = love.timer.getTime()
+        local frame_time = new_time - current_time
+        current_time = new_time
+
+        -- Prevent spiral of death (limit frame time)
+        frame_time = math.min(frame_time, 0.04) -- Max 40ms frame time
+
+        -- Add frame time to accumulator
+        accumulator = accumulator + frame_time
+
+        -- Update with fixed timestep
+        while accumulator >= fixed_dt do
+            if love.update then
+                love.update(fixed_dt)  -- Always pass fixed timestep
+            end
+            accumulator = accumulator - fixed_dt
+        end
+
+        -- Render with interpolation factor (optional)
+        if love.graphics and love.graphics.isActive() then
+            love.graphics.origin()
+            love.graphics.clear(love.graphics.getBackgroundColor())
+
+            if love.draw then
+                -- Optional: pass interpolation factor for smooth rendering
+                local alpha = accumulator / fixed_dt
+                love.draw(alpha)
+            end
+
+            love.graphics.present()
+        end
+
+        if love.timer then love.timer.sleep(0.001) end
+    end
+end
+
+
+function love.draw(alpha)
     if scenes[current_scene].draw then
-        scenes[current_scene].draw()
+        scenes[current_scene].draw(alpha)
     end
     if profiler then
         love.graphics.setFont(SmallFont)

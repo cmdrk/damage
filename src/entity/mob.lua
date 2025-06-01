@@ -10,6 +10,10 @@ function Mob:new(x,y)
     self.drawable = true
     self.size = SIZE
     self.speed = SPEED
+    self.last_position = {
+        x = x * MAP_SCALE,
+        y = y * MAP_SCALE
+    }
     self.position = {
         x = x * MAP_SCALE,
         y = y * MAP_SCALE
@@ -18,6 +22,7 @@ function Mob:new(x,y)
         x = math.random(),
         y = math.random()
     }
+    self.last_rotation = 0.0
     self.rotation = 0.0
     self.shape = "rectangle"
     self.collision_shape = Slick.newRectangleShape(0,0,self.size,self.size)

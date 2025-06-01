@@ -36,7 +36,9 @@ function offline.activate()
     _G.ecs = ecs
 
     -- Generate the map
-    mapgen.run("map_01")
+    local m =mapgen.read_map("map_01")
+    print(m)
+    mapgen.run(m)
 
     -- Add the player
     p = Player(2,2)
@@ -54,12 +56,11 @@ function offline.update(dt)
     ecs:update(dt, update_filter)
 end
 
-local function render(_l,_t,_w,_h)
-    local dt = love.timer.getDelta()
-    ecs:update(dt, draw_filter)
+local function render(_l,_t,_w,_h, alpha)
+    ecs:update(alpha, draw_filter)
 end
-function offline.draw()
-    cam:draw(render)
+function offline.draw(alpha)
+    cam:draw(render,alpha)
 end
 
 function offline.keypressed(_key)

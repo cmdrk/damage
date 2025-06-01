@@ -11,6 +11,10 @@ function Player:new(x,y)
     self.controllable = true
     self.size = SIZE
     self.speed = SPEED
+    self.last_position = {
+        x = x * MAP_SCALE,
+        y = y * MAP_SCALE
+    }
     self.position = {
         x = x * MAP_SCALE,
         y = y * MAP_SCALE
@@ -19,7 +23,8 @@ function Player:new(x,y)
         x = 0.0,
         y = 0.0
     }
-    self.rotation = 0
+    self.last_rotation = 0.0
+    self.rotation = 0.0
 
     self.collision_layer = 2
     self.collision_shape = Slick.newCircleShape(0,0, self.size)

@@ -2,10 +2,14 @@
 local Floor = Class:extend()
 
 function Floor:new(x,y)
-    print("Adding floor at: ("..x..","..y..")")
+    self.last_position = { x = x * MAP_SCALE,
+                      y = y * MAP_SCALE
+                    }
     self.position = { x = x * MAP_SCALE,
                       y = y * MAP_SCALE
                     }
+    self.last_rotation = 0
+    self.rotation = 0
     self.drawable = true
     self.size = MAP_SCALE - 1
     self.shape = "rectangle"

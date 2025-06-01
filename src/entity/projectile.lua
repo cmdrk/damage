@@ -14,7 +14,10 @@ local DAMAGE = 1
 function Projectile:new(px,py,vx,vy)
     self.type = "projectile"
     self.dead = false
+    self.last_position = { x = px, y = py }
     self.position = { x = px, y = py }
+    self.last_rotation = 0.0
+    self.rotation = 0.0
     self.velocity = { x = vx, y = vy }
     self.speed = SPEED
     self.drawable = true
