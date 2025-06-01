@@ -2,13 +2,11 @@
 -- Player controller
 
 local controller = Tiny.processingSystem()
-local kb = love.keyboard
-local mouse = love.mouse
-
 controller.filter = Tiny.requireAll("controllable","position","velocity")
 
 local function look_at_cursor(x,y)
     -- Calculate angle from player to mouse and set the rotation
+    local mouse = love.mouse
     local mx,my = cam:toWorld(mouse.getPosition())
     local dx = mx - x
     local dy = my - y
@@ -21,6 +19,7 @@ local function look_at_cursor(x,y)
 end
 
 function controller:process(e, _dt)
+    local kb = love.keyboard
     -- Get the position
     local p = e.position
 
