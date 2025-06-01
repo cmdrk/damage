@@ -3,7 +3,7 @@ local damage = {}
 -- Global libs
 Class = require("lib.classic")
 Tiny = require("lib.tiny")
-Slick = require("lib.slick")
+Slick = require("slick")
 
 -- Constants
 WORLD_X = 2048
