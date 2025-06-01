@@ -22,19 +22,6 @@ function offline.activate()
     local cam = Gamera.new(0,0,WORLD_X,WORLD_Y)
     _G.cam = cam
 
-    -- Setup collision system
-    local collision = Slick.newWorld(WORLD_X, WORLD_Y)
-    _G.collision = collision
-
-    -- Setup ECS
-    local ecs = Tiny.world(
-                    require("src.system.controller"),
-                    require("src.system.physics"),
-                    require("src.system.render"),
-                    require("src.system.cleaner")
-                )
-    _G.ecs = ecs
-
     -- Generate the map
     local m =mapgen.read_map("map_01")
     print(m)

@@ -1,5 +1,6 @@
 -- file: physics.lua
 local physics = Tiny.processingSystem()
+physics.is_server_system = true
 
 physics.filter = Tiny.requireAll("position",
                                  "velocity",

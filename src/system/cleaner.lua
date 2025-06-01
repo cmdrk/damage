@@ -1,6 +1,7 @@
 -- file: cleaner.lua
 
 local cleaner = Tiny.processingSystem()
+cleaner.is_server_system = true
 
 cleaner.filter = Tiny.requireAll("dead")
 

@@ -1,13 +1,8 @@
 -- file: main.lua
 
 -- Global libraries
-Class = require("lib.classic")
-Tiny = require("lib.tiny")
-Slick = require("lib.slick")
+Damage = require("damage")
 Gamera = require("lib.gamera")
-
--- Constants
-require("constants")
 
 -- Global variables
 ---- Multiplayer
